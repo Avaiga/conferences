@@ -2,7 +2,7 @@
 
 ## Usage
 - [Usage](#usage)
-- [Conferences](#what-is-demo-production-planning)
+- [Conferences](#what-is-conferences)
 - [Directory Structure](#directory-structure)
 - [License](#license)
 - [Installation](#installation)
@@ -14,16 +14,15 @@
 Taipy is a Python library for creating Business Applications. More information on our
 [website](https://www.taipy.io).
 
-[Conferences](https://github.com/Avaiga/demo-production-planning) is a full application showing how Taipy Core and Taipy Gui can work together to build a minimalist but powerful application.
-This demo shows the fundamental mathematical optimization problem of “Production Planning”. The goal is to minimize costs while fulfilling product demand and satisfying capacity constraints.
-Some of the constraints can be modified, resulting in different scenarios. For each scenario, different graphical representations are provided. 
+[Conferences](https://github.com/Avaiga/conferences) is a collection of folders and notebooks used for conferences.
+In each folder, you can find Notebooks that were used to illustrate Taipy (Core and GUI). All the information needed can be found in the Notebooks.
 
 ### Demo Type
 - **Level**: Moderate
 - **Topic**: Taipy-GUI, Taipy-Core
 - **Components/Controls**: 
-  - Taipy GUI: selector, chart, toggle, slider, expandable, table
-  - Taipy Core: datanode, pipeline, scenario
+  - Taipy GUI: selector, chart, toggle, slider, expandable, table, map
+  - Taipy Core: datanode, pipeline, scenario, caching
 
 ## How to run
 
@@ -33,9 +32,9 @@ This demo works with a Python version superior to 3.8. Install the dependencies 
 
 
 - The folders for the different conferences
-- `CODE_OF_CONDUCT.md`: Code of conduct for members and contributors of _demo-production-planning_.
-- `CONTRIBUTING.md`: Instructions to contribute to _demo-production-planning_.
-- `INSTALLATION.md`: Instructions to install _demo-production-planning_.
+- `CODE_OF_CONDUCT.md`: Code of conduct for members and contributors of _conferences_.
+- `CONTRIBUTING.md`: Instructions to contribute to _conferences_.
+- `INSTALLATION.md`: Instructions to install _conferences_.
 - `LICENSE`: The Apache 2.0 License.
 - `Pipfile`: File used by the Pipenv virtual environment to manage project dependencies.
 - `README.md`: Current file.
