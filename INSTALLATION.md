@@ -15,7 +15,7 @@ pip install git+https://git@github.com/Avaiga/conferences
 ## Work with the _conferences_ code
 ```
 git clone https://github.com/Avaiga/conferences.git
-cd demo-production planning
+cd conferences
 pip install .
 ```
 
