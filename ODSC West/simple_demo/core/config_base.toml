@@ -1,0 +1,90 @@
+[TAIPY]
+root_folder = "./taipy/"
+storage_folder = ".data/"
+clean_entities_enabled = "ENV[TAIPY_CLEAN_ENTITIES_ENABLED]"
+repository_type = "filesystem"
+
+[JOB]
+mode = "development"
+max_nb_of_workers = "1:int"
+
+[gui]
+
+[DATA_NODE.default]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+[DATA_NODE.initial_dataset]
+storage_type = "csv"
+scope = "GLOBAL:SCOPE"
+cacheable = "False:bool"
+path = "core/backend/dataset.csv"
+
+[DATA_NODE.day]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+default_data = 2021-07-26T00:00:00
+
+[DATA_NODE.cleaned_dataset]
+storage_type = "pickle"
+scope = "GLOBAL:SCOPE"
+cacheable = "True:bool"
+validity_period = "datetime.timedelta(days=1)"
+
+[DATA_NODE.predictions]
+storage_type = "pickle"
+scope = "PIPELINE:SCOPE"
+cacheable = "False:bool"
+
+[DATA_NODE.evaluation]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+[TASK.default]
+inputs = []
+outputs = []
+
+[TASK.clean_data]
+inputs = [ "initial_dataset" ]
+function = "<function clean_data at 0x000001A6BCD59C60>"
+outputs = [ "cleaned_dataset",]
+
+[TASK.predict]
+inputs = [ "cleaned_dataset", "day",]
+function = "<function predict at 0x000001A6BCD59D80>"
+outputs = [ "predictions",]
+
+[TASK.evaluate]
+inputs = [ "predictions", "cleaned_dataset", "day",]
+function = "<function evaluate at 0x000001A6BCD59E10>"
+outputs = [ "evaluation",]
+
+[PIPELINE.default]
+tasks = []
+
+[PIPELINE.baseline]
+tasks = [ "clean_data", "predict", "evaluate",]
+
+[SCENARIO.default]
+pipelines = []
+
+[SCENARIO.scenario]
+pipelines = [ "baseline",]
+
+[SCENARIO.default.comparators]
+
+[SCENARIO.scenario.comparators]
+
+
+[DATA_NODE.test]
+storage_type = ""
+scope = ""
+cacheable = "False:bool"
+
+[DATA_NODE.test_2]
+storage_type = ""
+scope = ""
+cacheable = "False:bool"

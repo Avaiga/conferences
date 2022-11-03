@@ -1,0 +1,31 @@
+from taipy.gui import Gui, notify
+from math import cos, exp
+
+
+value = 10
+
+page = """
+# Taipy *Demo*
+
+The value is: <|{value}|>.
+
+And even some <|Press here|button|on_action={show_message}|> controls.
+
+Interact: <|{value}|slider|>
+
+<|{data}|chart|>
+"""
+
+def show_message(state):
+    notify(state,"info", "Here is a message from Taipy")
+
+def compute_data(decay):
+    return [cos(i/16) * exp(-i*decay/6000) for i in range(720)]
+
+data = compute_data(value)
+
+def on_change(state, var_name, var_value):
+    if var_name == 'value':
+        state.data = compute_data(var_value)
+
+Gui(page).run()

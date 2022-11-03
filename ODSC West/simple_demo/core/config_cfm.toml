@@ -1,0 +1,157 @@
+[TAIPY]
+root_folder = "./taipy/"
+storage_folder = "data_temp"
+clean_entities_enabled = "True:bool"
+repository_type = "filesystem"
+read_entity_retry = "20:int"
+
+[JOB]
+mode = "standalone"
+max_nb_of_workers = "2:int"
+
+[gui]
+
+
+[DATA_NODE.raw_historical_data]
+storage_type = "sql"
+scope = "GLOBAL:SCOPE"
+cacheable = "False:bool"
+db_username = "dd91381sqldb01-admin"
+db_password = "%BEq^[B_(uq]Tf&F31_e"
+db_name = "dd91381sqldb01-database"
+db_host = "dd91381sqldb01.database.windows.net"
+db_engine = "mssql"
+db_driver = "ODBC Driver 18 for SQL Server"
+read_query = "EXEC SP_GET_HISTORY"
+write_query_builder = "<function write_query_builder at 0x000001C222EB65F0>"
+db_port = "1433:int"
+exposed_type = "pandas"
+
+[DATA_NODE.historical_data]
+storage_type = "pickle"
+scope = "GLOBAL:SCOPE"
+cacheable = "True:bool"
+validity_period = "datetime.timedelta(seconds=43200)"
+
+[DATA_NODE.parameters_dict]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+[DATA_NODE.full_dataset_predictions]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "True:bool"
+validity_period = "datetime.timedelta(days=1)"
+
+[DATA_NODE.metadata]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "True:bool"
+validity_period = "datetime.timedelta(days=1)"
+
+[DATA_NODE.full_dataset]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+[DATA_NODE.final_dataset]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+[DATA_NODE.reformist]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+default_data = [ "Date", "groupe", "value Baseline", "value ML",]
+
+[DATA_NODE.events]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+default_data = [ "Date", "Mois", "Event",]
+
+[DATA_NODE.metrics]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+[DATA_NODE.wanted_horizon]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+default_data = "84:int"
+
+[DATA_NODE.cash_position_ini]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+[DATA_NODE.cash_position_dict]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+[DATA_NODE.result]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+cacheable = "False:bool"
+
+
+[TASK.task_historical_data]
+inputs = [ "raw_historical_data",]
+function = "<function convert_raw_history at 0x000001C268B3E5F0>"
+outputs = [ "historical_data",]
+
+[TASK.predict]
+inputs = [ "parameters_dict",]
+function = "<function predict at 0x000001C268B3E440>"
+outputs = [ "full_dataset_predictions", "metadata",]
+
+[TASK.task_aggregate_historical_data]
+inputs = [ "full_dataset_predictions", "historical_data",]
+function = "<function aggregate_historic at 0x000001C268B3E680>"
+outputs = [ "full_dataset",]
+
+[TASK.task_reform]
+inputs = [ "full_dataset", "reformist",]
+function = "<function reform_dataset at 0x000001C268B3E710>"
+outputs = [ "final_dataset",]
+
+[TASK.task_create_metrics]
+inputs = [ "final_dataset", "wanted_horizon", "historical_data",]
+function = "<function create_metrics at 0x000001C268B3E7A0>"
+outputs = [ "metrics",]
+
+[TASK.task_cash_position]
+inputs = [ "final_dataset", "cash_position_ini",]
+function = "<function create_cash_position at 0x000001C268B3E830>"
+outputs = [ "cash_position_dict",]
+
+[TASK.task_result]
+inputs = [ "parameters_dict", "historical_data", "final_dataset", "full_dataset_predictions", "cash_position_dict", "metrics", "wanted_horizon", "reformist",]
+function = "<function create_result at 0x000001C268B3E8C0>"
+outputs = [ "result",]
+
+
+[PIPELINE.pipeline_predictions]
+tasks = [ "predict",]
+
+[PIPELINE.pipeline_historical_data]
+tasks = [ "task_historical_data",]
+
+[PIPELINE.pipeline_result]
+tasks = [ "task_aggregate_historical_data", "task_reform", "task_create_metrics", "task_cash_position",]
+
+[SCENARIO.scenario]
+pipelines = [ "pipeline_historical_data", "pipeline_predictions", "pipeline_result",]
+frequency = "WEEKLY:FREQUENCY"
+
+[DATA_NODE.cash_position_ini.default_data]
+cash_position_today = "0:int"
+list_cash_position = [ "Date", "Value",]
+
+[SCENARIO.default.comparators]
+
+[SCENARIO.scenario.comparators]
