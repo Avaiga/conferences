@@ -1,0 +1,99 @@
+[TAIPY]
+
+[DATA_NODE.initial_data]
+storage_type = "csv"
+scope = "GLOBAL:SCOPE"
+path = "data/covid-19-all.csv"
+
+[DATA_NODE.country]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+default_data = "France"
+
+[DATA_NODE.date]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.final_data]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.train_data]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.model_arima]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.model_linear]
+storage_type = "pickle"
+scope = "PIPELINE:SCOPE"
+
+[DATA_NODE.predictions_linear]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.result_linear]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.predictions_arima]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.result_arima]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[TASK.task_preprocess_data]
+inputs = [ "initial_data:SECTION", "country:SECTION", "date:SECTION",]
+function = "algos.algos.preprocess:function"
+outputs = [ "final_data:SECTION", "train_data:SECTION",]
+skippable = "True:bool"
+
+[TASK.task_train_arima]
+inputs = [ "train_data:SECTION",]
+function = "algos.algos.train_arima:function"
+outputs = [ "model_arima:SECTION",]
+skippable = "True:bool"
+
+
+[TASK.task_forecast_arima]
+inputs = [ "model_arima:SECTION",]
+function = "algos.algos.forecast:function"
+outputs = [ "predictions_arima:SECTION",]
+skippable = "False:bool"
+
+[TASK.task_train_linear]
+inputs = [ "train_data:SECTION",]
+function = "algos.algos.train_linear:function"
+outputs = [ "model_linear:SECTION",]
+skippable = "True:bool"
+
+[TASK.task_forecast_linear]
+inputs = [ "model_linear:SECTION", "date:SECTION",]
+function = "algos.algos.forecast_linear:function"
+outputs = [ "predictions_linear:SECTION",]
+skippable = "False:bool"
+
+[TASK.task_result_linear]
+inputs = [ "final_data:SECTION", "predictions_linear:SECTION", "date:SECTION",]
+function = "algos.algos.result:function"
+outputs = [ "result_linear:SECTION",]
+skippable = "False:bool"
+
+[TASK.task_result_arima]
+inputs = [ "final_data:SECTION", "predictions_arima:SECTION", "date:SECTION",]
+function = "algos.algos.result:function"
+outputs = [ "result_arima:SECTION",]
+skippable = "False:bool"
+
+[PIPELINE.PIPELINE]
+tasks = [ "task_preprocess_data:SECTION", "task_train_arima:SECTION", "task_forecast_arima:SECTION", "task_result_arima:SECTION","task_train_linear:SECTION", "task_forecast_linear:SECTION", "task_result_linear:SECTION",]
+
+
+[SCENARIO.scenario]
+pipelines = [ "PIPELINE:SECTION",]
+
+[SCENARIO.scenario.comparators]
