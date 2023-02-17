@@ -48,44 +48,44 @@ scope = "SCENARIO:SCOPE"
 
 [TASK.task_preprocess_data]
 inputs = [ "initial_data:SECTION", "country:SECTION", "date:SECTION",]
-function = "algos.algos.preprocess:function"
+function = "algos.preprocess:function"
 outputs = [ "final_data:SECTION", "train_data:SECTION",]
 skippable = "True:bool"
 
 [TASK.task_train_arima]
 inputs = [ "train_data:SECTION",]
-function = "algos.algos.train_arima:function"
+function = "algos.train_arima:function"
 outputs = [ "model_arima:SECTION",]
 skippable = "True:bool"
 
 
 [TASK.task_forecast_arima]
 inputs = [ "model_arima:SECTION",]
-function = "algos.algos.forecast:function"
+function = "algos.forecast:function"
 outputs = [ "predictions_arima:SECTION",]
 skippable = "False:bool"
 
 [TASK.task_train_linear]
 inputs = [ "train_data:SECTION",]
-function = "algos.algos.train_linear:function"
+function = "algos.train_linear:function"
 outputs = [ "model_linear:SECTION",]
 skippable = "True:bool"
 
 [TASK.task_forecast_linear]
 inputs = [ "model_linear:SECTION", "date:SECTION",]
-function = "algos.algos.forecast_linear:function"
+function = "algos.forecast_linear:function"
 outputs = [ "predictions_linear:SECTION",]
 skippable = "False:bool"
 
 [TASK.task_result_linear]
 inputs = [ "final_data:SECTION", "predictions_linear:SECTION", "date:SECTION",]
-function = "algos.algos.result:function"
+function = "algos.result:function"
 outputs = [ "result_linear:SECTION",]
 skippable = "False:bool"
 
 [TASK.task_result_arima]
 inputs = [ "final_data:SECTION", "predictions_arima:SECTION", "date:SECTION",]
-function = "algos.algos.result:function"
+function = "algos.result:function"
 outputs = [ "result_arima:SECTION",]
 skippable = "False:bool"
 

@@ -3,7 +3,7 @@ import numpy as np
 import taipy as tp
 from taipy.gui import Gui
 
-from pages.country import country_md, on_change_country
+from pages.country import country_md, on_change_country, selected_representation, data_country_date, pie_chart
 from pages.world import world_md
 from pages.map import map_md
 from pages.predictions import predictions_md

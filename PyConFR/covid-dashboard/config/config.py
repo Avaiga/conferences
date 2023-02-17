@@ -1,9 +1,9 @@
 from taipy.config import Config, Scope
 import datetime as dt
 
-from algos.algos import add_features, create_train_data, preprocess,\
-                        train_arima, train_linear_regression,\
-                        forecast, forecast_linear_regression,\
+from algos import add_features, create_train_data, preprocess,\
+                        train_arima, train_linear,\
+                        forecast, forecast_linear,\
                         result
 
 #Config.configure_job_executions(mode="standalone", nb_of_workers=2)
