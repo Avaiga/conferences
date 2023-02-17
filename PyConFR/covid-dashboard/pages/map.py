@@ -11,7 +11,7 @@ decimator_instance = ScatterDecimator(threshold=100, binning_ratio=3, max_overla
 marker_map = {"color":"Deaths", "size": "Size", "showscale":True, "colorscale":"Viridis"}
 layout_map = {
             "dragmode": "zoom",
-            "mapbox": { "style": "open-street-map", "center": { "lat": 38, "lon": -90 }, "zoom": 3}
+            "mapbox": { "style": "open-street-map",  "center": { "lat": 38, "lon": -90 }, "zoom": 3}
             }
 
 def initialize_map(data):
@@ -26,7 +26,7 @@ def initialize_map(data):
     data_province_displayed = data_province[data_province['Deaths']>10].reset_index()
 
     data_province_displayed['Size'] = np.sqrt(data_province_displayed.loc[:,'Deaths']/data_province_displayed.loc[:,'Deaths'].max())*80 + 3
-    data_province_displayed['Text'] = data_province_displayed.loc[:,'Deaths'].astype(str) + ' deaths </br> ' + data_province_displayed.loc[:,'Province/State']
+    data_province_displayed['Text'] = data_province_displayed.loc[:,'Deaths'].astype(str) + " Deaths in " +data_province_displayed.loc[:,'Province/State']
     return data_province_displayed
 
 
@@ -38,5 +38,5 @@ map_md = Markdown("""
 
 # <strong>Map</strong> Statistics
 
-<|{data_province_displayed}|chart|type=scattermapbox|lat=Latitude|lon=Longitude|marker={marker_map}|layout={layout_map}|text=Text|mode=markers|height=800px|>
+<|{data_province_displayed}|chart|type=scattermapbox|lat=Latitude|lon=Longitude|marker={marker_map}|layout={layout_map}|mode=markers|height=800px|text=Text|>
 """)

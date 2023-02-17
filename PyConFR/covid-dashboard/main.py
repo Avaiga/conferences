@@ -28,5 +28,5 @@ gui_multi_pages = Gui(pages=pages)
 if __name__ == '__main__':
     gui_multi_pages.run(title="Covid Dashboard",
     		            dark_mode=False,
-                        use_reloader=False,
+                        use_reloader=True,
                         port=5039)
