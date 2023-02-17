@@ -4,10 +4,6 @@ from taipy.gui import Markdown
 
 from data.data import data
 
-from taipy.gui.data.decimator import ScatterDecimator, RDP
-
-decimator_instance = ScatterDecimator(threshold=100, binning_ratio=3, max_overlap_points=1)
-
 marker_map = {"color":"Deaths", "size": "Size", "showscale":True, "colorscale":"Viridis"}
 layout_map = {
             "dragmode": "zoom",
