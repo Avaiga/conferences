@@ -38,5 +38,5 @@ map_md = Markdown("""
 
 # <strong>Map</strong> Statistics
 
-<|{data_province_displayed[:10]}|chart|type=scattermapbox|lat=Latitude|lon=Longitude|marker={marker_map}|layout={layout_map}|text=Text|mode=markers|height=800px|>
+<|{data_province_displayed}|chart|type=scattermapbox|lat=Latitude|lon=Longitude|marker={marker_map}|layout={layout_map}|text=Text|mode=markers|height=800px|>
 """)
