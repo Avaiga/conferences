@@ -1,6 +1,6 @@
 [TAIPY]
 
-[DATA_NODE.initial_data]
+[DATA_NODE.ini]
 storage_type = "csv"
 scope = "GLOBAL:SCOPE"
 path = "data/covid-19-all.csv"
@@ -22,75 +22,75 @@ scope = "SCENARIO:SCOPE"
 storage_type = "pickle"
 scope = "SCENARIO:SCOPE"
 
-[DATA_NODE.model_arima]
+[DATA_NODE.model_ar]
 storage_type = "pickle"
 scope = "SCENARIO:SCOPE"
 
-[DATA_NODE.model_linear]
+[DATA_NODE.model_lin]
 storage_type = "pickle"
 scope = "PIPELINE:SCOPE"
 
-[DATA_NODE.predictions_linear]
+[DATA_NODE.pred_lin]
 storage_type = "pickle"
 scope = "SCENARIO:SCOPE"
 
-[DATA_NODE.result_linear]
+[DATA_NODE.res_lin]
 storage_type = "pickle"
 scope = "SCENARIO:SCOPE"
 
-[DATA_NODE.predictions_arima]
+[DATA_NODE.pred_ar]
 storage_type = "pickle"
 scope = "SCENARIO:SCOPE"
 
-[DATA_NODE.result_arima]
+[DATA_NODE.res_ar]
 storage_type = "pickle"
 scope = "SCENARIO:SCOPE"
 
-[TASK.task_preprocess_data]
-inputs = [ "initial_data:SECTION", "country:SECTION", "date:SECTION",]
+[TASK.prep]
+inputs = [ "ini:SECTION", "country:SECTION", "date:SECTION",]
 function = "algos.preprocess:function"
 outputs = [ "final_data:SECTION", "train_data:SECTION",]
 skippable = "True:bool"
 
-[TASK.task_train_arima]
+[TASK.train_ar]
 inputs = [ "train_data:SECTION",]
 function = "algos.train_arima:function"
-outputs = [ "model_arima:SECTION",]
+outputs = [ "model_ar:SECTION",]
 skippable = "True:bool"
 
 
-[TASK.task_forecast_arima]
-inputs = [ "model_arima:SECTION",]
+[TASK.forecast_ar]
+inputs = [ "model_ar:SECTION",]
 function = "algos.forecast:function"
-outputs = [ "predictions_arima:SECTION",]
+outputs = [ "pred_ar:SECTION",]
 skippable = "False:bool"
 
-[TASK.task_train_linear]
+[TASK.train_lin]
 inputs = [ "train_data:SECTION",]
 function = "algos.train_linear:function"
-outputs = [ "model_linear:SECTION",]
+outputs = [ "model_lin:SECTION",]
 skippable = "True:bool"
 
-[TASK.task_forecast_linear]
-inputs = [ "model_linear:SECTION", "date:SECTION",]
+[TASK.forecast_lin]
+inputs = [ "model_lin:SECTION", "date:SECTION",]
 function = "algos.forecast_linear:function"
-outputs = [ "predictions_linear:SECTION",]
+outputs = [ "pred_lin:SECTION",]
 skippable = "False:bool"
 
-[TASK.task_result_linear]
-inputs = [ "final_data:SECTION", "predictions_linear:SECTION", "date:SECTION",]
+[TASK.tsk_res_lin]
+inputs = [ "final_data:SECTION", "pred_lin:SECTION", "date:SECTION",]
 function = "algos.result:function"
-outputs = [ "result_linear:SECTION",]
+outputs = [ "res_lin:SECTION",]
 skippable = "False:bool"
 
-[TASK.task_result_arima]
-inputs = [ "final_data:SECTION", "predictions_arima:SECTION", "date:SECTION",]
+[TASK.tsk_res_ar]
+inputs = [ "final_data:SECTION", "pred_ar:SECTION", "date:SECTION",]
 function = "algos.result:function"
-outputs = [ "result_arima:SECTION",]
+outputs = [ "res_ar:SECTION",]
 skippable = "False:bool"
 
 [PIPELINE.PIPELINE]
-tasks = [ "task_preprocess_data:SECTION", "task_train_arima:SECTION", "task_forecast_arima:SECTION", "task_result_arima:SECTION","task_train_linear:SECTION", "task_forecast_linear:SECTION", "task_result_linear:SECTION",]
+tasks = [ "prep:SECTION", "train_ar:SECTION", "forecast_ar:SECTION", "tsk_res_ar:SECTION","train_lin:SECTION", "forecast_lin:SECTION", "tsk_res_lin:SECTION",]
 
 
 [SCENARIO.scenario]
