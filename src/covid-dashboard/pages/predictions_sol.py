@@ -59,13 +59,12 @@ predictions_md = Markdown("""
   
 ## Scenario Creation
   
-<|layout|columns=5 5 5 5|
+<|layout|columns=1 1 1|
 **Scenario Name** <br/>
 <|{scenario_name}|input|label=Name|> <br/> <|Create|button|on_action=create_new_scenario|>
 
 **Prediction Date** <br/>
 <|{selected_date}|date|label=Prediction date|>
-<br/>
 <|Submit|button|on_action=submit_scenario|>
 
 <|{selected_country}|selector|lov={selector_country}|dropdown|on_change=on_change_country|label=Country|>

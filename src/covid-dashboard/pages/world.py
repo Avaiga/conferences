@@ -17,11 +17,12 @@ def initialize_world(data):
                             .sum()\
                             .reset_index()
                             
-    pop = json.load(open("data/pop.json","r"))
+    #pop = json.load(open("data/pop.json","r"))
+    pop = 100
     
     data_world['Population'] = [0]*len(data_world)
     for i in range(len(data_world)):
-        data_world['Population'][i] = pop[data_world.loc[i, "Country/Region"]][1]
+        data_world['Population'][i] = pop
     data_world = data_world.dropna()\
                             .reset_index()
     data_world['Deaths/100k'] = data_world.loc[:,'Deaths']/data_world.loc[:,'Population']*100000
